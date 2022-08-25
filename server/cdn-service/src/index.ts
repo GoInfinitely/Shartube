@@ -44,6 +44,8 @@ app.post('/interactions', (req, res) => {
 
 })
 
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.post('/', async (req, res) => {
   res.send('Hello World!');
 });
@@ -59,7 +61,9 @@ app.post('/save', function(req, res){
 
   bot.rest(`/channels/${process.env.CHANNEL_ID}/messages`, {
     files: image,
-  }, 'POST');
+  }, 'POST').then(res => {
+    console.log(res);
+  });
 })
 server.on('listening', () => {
   console.log('Server is listening on port 1688');
@@ -69,3 +73,4 @@ server.on('listening', () => {
     type: 1,
   })
 })
+
